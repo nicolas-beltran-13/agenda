@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Formulario Persona</h5>
+        <form method="post">
+            {% csrf_token %}
+
+            <label class="form-label">Documento</label>
+            <input type="number" name="documento" class="form-control mb-2" placeholder="Documento" value="{{ persona.documento|default:'' }}" required>
+
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre" value="{{ persona.nombre|default:'' }}" required>
+
+            <label class="form-label">Apellido</label>
+            <input type="text" name="apellido" class="form-control mb-2" placeholder="Apellido" value="{{ persona.apellido|default:'' }}" required>
+
+            <label class="form-label">Dirección</label>
+            <input type="text" name="direccion" class="form-control mb-2" placeholder="Direccion" value="{{ persona.direccion|default:'' }}" required>
+
+            <label class="form-label">Correo</label>
+            <input type="email" name="correo" class="form-control mb-2" placeholder="Correo" value="{{ persona.correo|default:'' }}" required>
+
+            <label class="form-label">Ciudad</label>
+            <select name="ciudad" class="form-select mb-3" required>
+                <option value="" disabled {% if not persona %}selected{% endif %}>Selecciona una ciudad</option>
+                {% for ciudad in ciudades %}
+                <option value="{{ ciudad.id }}" {% if persona and persona.ciudad.id == ciudad.id %}selected{% endif %}>{{ ciudad.nombre }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-success btn-sm">Guardar</button>
+            <a href="{% url 'lista_personas' %}" class="btn btn-secondary btn-sm">Volver</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
